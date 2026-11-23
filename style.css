@@ -34,7 +34,7 @@ body {
     display: inline-block; padding: 9px 16px;
     border-radius: 8px; color: #aeb8c3;
     text-decoration: none; font-size: 15px; font-weight: 500;
-    transition: background 0.15s ease, color 0.15s ease;
+    transition: background 0.2s ease, color 0.2s ease;
 }
 .site-nav-link:hover { background: #1a222d; color: #ffffff; }
 .site-nav-link.active { background: #3f6df6; color: #ffffff; }
