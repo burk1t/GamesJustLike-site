@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Змейка — GameJustLike</title>
+    <link rel="icon" type="image/svg+xml" href="images/gamesjustlike-icon.svg" />
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <header>
+        <nav class="site-navbar">
+            <div class="site-navbar-inner">
+                <a class="site-logo" href="index.html" aria-label="GameJustLike — на главную">
+                    <img src="images/gamesjustlike-logo.svg" alt="GameJustLike" width="216" height="40" />
+                </a>
+                <div class="site-nav">
+                    <a href="index.html" class="site-nav-link">🎮 Каталог игр</a>
+                    <a href="games.html" class="site-nav-link active">🌐 Онлайн игры</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="game-page">
+            <a href="games.html" class="game-back">← К списку игр</a>
+            <h1 class="arcade-title">🐍 Змейка</h1>
+            <div class="arcade-status">
+                Счёт: <strong id="snakeScore">0</strong> &nbsp;|&nbsp;
+                Рекорд: <strong id="snakeBest">0</strong>
+            </div>
+            <div class="snake-wrapper">
+                <canvas id="snakeCanvas" width="400" height="400"></canvas>
+                <div id="snakeOverlay" class="snake-overlay hidden">
+                    <div>
+                        <h2 id="snakeOverText">Игра окончена</h2>
+                        <button id="snakeRestart" class="arcade-btn arcade-btn-primary">↻ Играть снова</button>
+                    </div>
+                </div>
+            </div>
+            <p class="arcade-hint">Управление: стрелки или WASD. Space — пауза.</p>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div>© 2026 - GameJustLike</div>
+    </footer>
+
+    <script src="js/games/snake.js"></script>
+</body>
+</html>
