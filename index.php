@@ -63,6 +63,41 @@ $totalGames = count($items);
                 </form>
             </div>
 
+            <?php
+            // Блок персональных рекомендаций (топ-6 из уже вычисленных $items)
+            $recommendedGames = array_slice($items, 0, 6);
+            ?>
+            <?php if (!empty($recommendedGames)): ?>
+                <section class="recommended-block" style="margin:10px 0 30px;padding:20px;background:rgba(27,40,56,0.85);border-radius:12px;">
+                    <h2 style="margin-top:0;color:#66c0f4;">✨ Рекомендуем для вас</h2>
+                    <p style="margin-top:-6px;color:#8f98a0;">Подобрано на основе ваших предпочтений, группы и истории событий</p>
+                    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;">
+                        <?php foreach ($recommendedGames as $rec): ?>
+                            <?php
+                            $rId = (int)$rec['id'];
+                            $rName = htmlspecialchars($rec['name'] ?? '', ENT_QUOTES, 'UTF-8');
+                            $rImage = htmlspecialchars($rec['image_url'] ?? '', ENT_QUOTES, 'UTF-8');
+                            $rPrice = (float)($rec['price'] ?? 0);
+                            ?>
+                            <a href="product.php?id=<?= $rId ?>" style="display:block;text-decoration:none;color:inherit;background:#16202d;border-radius:10px;overflow:hidden;">
+                                <?php if ($rImage !== ''): ?>
+                                    <img src="<?= $rImage ?>" alt="<?= $rName ?>" loading="lazy" style="width:100%;height:120px;object-fit:cover;display:block;">
+                                <?php endif; ?>
+                                <div style="padding:10px;">
+                                    <div style="font-weight:600;margin-bottom:6px;"><?= $rName ?></div>
+                                    <div style="color:#a4d007;">
+                                        <?php if ($rPrice <= 0): ?>
+                                            Бесплатно
+                                        <?php else: ?>
+                                            <?= number_format($rPrice, 2) ?> USD
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+                            </a>
+                        <?php endforeach; ?>
+                    </div>
+                </section>
+            <?php endif; ?>
             <div class="catalog-layout">
                 <main class="games-area">
                     <div class="games-toolbar">

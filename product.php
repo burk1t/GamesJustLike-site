@@ -1,4 +1,4 @@
-﻿
+
 <?php
 session_start();
 
@@ -145,6 +145,76 @@ $gameType = htmlspecialchars($game['game_type'] ?? 'Не указан', ENT_QUOT
             </div>
         </div>
     </section>
+<?php
+// Похожие игры
+$similarGames = [];
+
+try {
+    $matrices = apiRequest('product-matrices.php');
+    $relations = $matrices['product_relations'] ?? [];
+
+    $similarRelations = [];
+    foreach ($relations as $rel) {
+        if ((int)($rel['source_product_id'] ?? 0) !== $productId) {
+            continue;
+        }
+        if (($rel['relation_type'] ?? '') !== 'similar') {
+            continue;
+        }
+        $similarRelations[] = $rel;
+    }
+
+    usort($similarRelations, function ($a, $b) {
+        return (float)($b['coefficient'] ?? 0) <=> (float)($a['coefficient'] ?? 0);
+    });
+
+    $productsById = [];
+    foreach ($products as $p) {
+        $productsById[(int)$p['id']] = $p;
+    }
+
+    foreach (array_slice($similarRelations, 0, 6) as $rel) {
+        $targetId = (int)($rel['target_product_id'] ?? 0);
+        if (isset($productsById[$targetId])) {
+            $similarGames[] = $productsById[$targetId];
+        }
+    }
+} catch (Throwable $e) {
+    error_log('Similar games error: ' . $e->getMessage());
+    $similarGames = [];
+}
+?>
+
+<?php if (!empty($similarGames)): ?>
+    <section class="similar-games" style="max-width:900px;margin:30px auto;padding:25px;background:rgba(27,40,56,0.85);border-radius:12px;">
+        <h2 style="margin-top:0;color:#66c0f4;">🎮 Похожие игры</h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;">
+            <?php foreach ($similarGames as $similar): ?>
+                <?php
+                $sId = (int)$similar['id'];
+                $sName = htmlspecialchars($similar['name'] ?? '', ENT_QUOTES, 'UTF-8');
+                $sImage = htmlspecialchars($similar['image_url'] ?? '', ENT_QUOTES, 'UTF-8');
+                $sPrice = (float)($similar['price'] ?? 0);
+                ?>
+                <a href="product.php?id=<?= $sId ?>" style="display:block;text-decoration:none;color:inherit;background:#16202d;border-radius:10px;overflow:hidden;">
+                    <?php if ($sImage !== ''): ?>
+                        <img src="<?= $sImage ?>" alt="<?= $sName ?>" style="width:100%;height:120px;object-fit:cover;display:block;">
+                    <?php endif; ?>
+                    <div style="padding:10px;">
+                        <div style="font-weight:600;margin-bottom:6px;"><?= $sName ?></div>
+                        <div style="color:#a4d007;">
+                            <?php if ($sPrice <= 0): ?>
+                                Бесплатно
+                            <?php else: ?>
+                                <?= number_format($sPrice, 2) ?> USD
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </a>
+            <?php endforeach; ?>
+        </div>
+    </section>
+<?php endif; ?>
 </main>
 
 <script src="js/user_events.js"></script>

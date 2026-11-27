@@ -25,3 +25,7 @@ desktop.ini
 /database/schema.sql
 
 /Practical_Work_Architecture/06_SQL/db_check.php
+
+# Локальные резервные копии
+product_backup*.php
+index_backup*.php

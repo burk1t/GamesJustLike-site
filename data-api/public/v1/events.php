@@ -272,12 +272,11 @@ try {
     $upsert = $pdo->prepare(
         'INSERT INTO user_preferences
          (user_id, preference_id, value, updated_at)
-         VALUES (?, ?, MIN(1.0, MAX(0.0, ?)), CURRENT_TIMESTAMP)
-         ON CONFLICT(user_id, preference_id)
-         DO UPDATE SET
-            value = MIN(
+         VALUES (?, ?, LEAST(1.0, GREATEST(0.0, ?)), CURRENT_TIMESTAMP)
+         ON DUPLICATE KEY UPDATE
+            value = LEAST(
                 1.0,
-                MAX(0.0, user_preferences.value + excluded.value)
+                GREATEST(0.0, user_preferences.value + VALUES(value))
             ),
             updated_at = CURRENT_TIMESTAMP'
     );
