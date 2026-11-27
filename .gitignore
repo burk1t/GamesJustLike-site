@@ -1,3 +1,19 @@
+# Секреты
+/config/api_client.php
+.env
+.env.*
+!.env.example
+
+# Локальные базы данных
+/data/
+*.db
+*.sqlite
+*.sqlite3
+
+# Старые инструменты и резервные файлы
+/old_tools/
+
+# Системные файлы
 .vs/
 bin/
 obj/
@@ -6,4 +22,6 @@ obj/
 Thumbs.db
 desktop.ini
 .DS_Store
-/database/
+/database/schema.sql
+
+/Practical_Work_Architecture/06_SQL/db_check.php

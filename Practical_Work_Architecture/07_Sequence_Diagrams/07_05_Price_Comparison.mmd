@@ -1,0 +1,13 @@
+sequenceDiagram
+    actor User as Пользователь
+    participant UI as Интерфейс сайта
+    participant Controller as PriceController
+    participant DB as SQLite
+
+    User->>UI: Нажимает сравнение цен
+    UI->>Controller: Запрос цен выбранной игры
+    Controller->>DB: SELECT цены игры
+    DB-->>Controller: Доступные цены
+    Controller->>Controller: Сортирует цены по возрастанию
+    Controller-->>UI: Возвращает результаты
+    UI-->>User: Показывает варианты покупки

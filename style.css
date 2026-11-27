@@ -329,3 +329,184 @@ body {
     .site-nav-link { padding: 7px 12px; font-size: 14px; }
     .arcade-title { font-size: 28px; }
 }
+/* Персональные рекомендации */
+.recommendations-section {
+    margin: 30px 0;
+    padding: 20px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.recommendations-heading h2 {
+    margin-bottom: 8px;
+}
+
+.recommendations-heading p {
+    opacity: 0.75;
+    margin-bottom: 20px;
+}
+
+.recommendations-grid .game-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.recommendations-error {
+    color: #ff7777;
+}
+
+
+/* LOGIN PAGE */
+.login-container {
+    max-width: 420px;
+    margin: 80px auto;
+    padding: 35px 30px;
+    background: #11171f;
+    border: 1px solid #252e39;
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.login-container h1 {
+    margin: 0 0 25px;
+    color: #ffffff;
+    font-size: 28px;
+    text-align: center;
+}
+
+.login-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.login-container input[type="text"],
+.login-container input[type="password"] {
+    height: 50px;
+    padding: 0 16px;
+    border: 1px solid #303a47;
+    border-radius: 8px;
+    background: #151b23;
+    color: #ffffff;
+    font-size: 15px;
+    outline: none;
+    font-family: inherit;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.login-container input:focus {
+    border-color: #5c8cff;
+}
+
+.login-container input::placeholder {
+    color: #6e7986;
+}
+
+.login-container button {
+    height: 50px;
+    border: 0;
+    border-radius: 8px;
+    background: #3f6df6;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    font-family: inherit;
+}
+
+.login-container button:hover {
+    background: #315bd8;
+}
+
+.login-container p {
+    text-align: center;
+    margin: 0 0 15px;
+}
+
+/* ===== USER IN NAVBAR ===== */
+.site-user {
+    display: inline-block;
+    padding: 9px 14px;
+    color: #cdd5de;
+    font-size: 14px;
+    font-weight: 500;
+    background: #1a222d;
+    border-radius: 8px;
+}
+
+.site-logout-link {
+    display: inline-block;
+    padding: 9px 16px;
+    border-radius: 8px;
+    background: #3f6df6;
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    transition: background 0.2s ease;
+}
+
+.site-logout-link:hover {
+    background: #315bd8;
+}
+
+/* ===== RECOMMENDATION IMAGES + DIAG ===== */
+.game-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.rec-diag {
+    margin-top: 12px;
+    padding: 10px;
+    background: #0b0f14;
+    border: 1px dashed #3f6df6;
+    border-radius: 6px;
+    font-size: 12px;
+    color: #aeb8c3;
+    font-family: Consolas, monospace;
+    line-height: 1.6;
+}
+.rec-diag b {
+    color: #7fa5ff;
+}
+
+/* ===== GAME ACTION BUTTONS ===== */
+.game-actions {
+    display: flex;
+    gap: 6px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+}
+
+.game-action-btn {
+    flex: 1;
+    min-width: 72px;
+    padding: 8px 8px;
+    border: 1px solid #303a47;
+    border-radius: 6px;
+    background: #1a222d;
+    color: #cdd5de;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.15s ease;
+}
+
+.game-action-btn:hover {
+    background: #263346;
+    color: #ffffff;
+    border-color: #3f6df6;
+}
+
+.game-action-btn.success {
+    background: #2a6d3a;
+    border-color: #2a6d3a;
+    color: #ffffff;
+}

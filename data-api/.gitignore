@@ -1,0 +1,6 @@
+﻿/config.php
+/config/config.php
+.env
+*.db
+*.sqlite
+*.sqlite3

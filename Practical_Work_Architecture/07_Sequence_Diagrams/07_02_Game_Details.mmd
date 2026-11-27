@@ -1,0 +1,14 @@
+sequenceDiagram
+    actor User as Пользователь
+    participant UI as Интерфейс сайта
+    participant Controller as GameController
+    participant DB as SQLite
+
+    User->>UI: Выбирает игру
+    UI->>Controller: Запрос информации об игре
+    Controller->>DB: SELECT game WHERE id
+    DB-->>Controller: Данные игры
+    Controller->>DB: SELECT категорию и характеристики
+    DB-->>Controller: Дополнительные данные
+    Controller-->>UI: Полная информация об игре
+    UI-->>User: Показывает описание, цену и рейтинг

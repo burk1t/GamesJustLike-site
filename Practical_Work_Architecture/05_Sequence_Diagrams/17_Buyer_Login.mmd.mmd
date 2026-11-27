@@ -1,0 +1,22 @@
+sequenceDiagram
+    actor Buyer as Покупатель
+    participant Browser as Браузер
+    participant Apache
+    participant PHP
+    participant DB as SQLite
+
+    Buyer->>Browser: Вводит логин и пароль
+    Browser->>Apache: POST /api/login
+    Apache->>PHP: Передача запроса
+    PHP->>DB: Найти пользователя по логину
+    DB-->>PHP: Данные пользователя и хеш пароля
+    PHP->>PHP: Проверить пароль
+    alt Пароль верный
+        PHP->>DB: Создать сессию
+        DB-->>PHP: Сессия сохранена
+        PHP-->>Browser: 200 OK, данные пользователя
+        Browser-->>Buyer: Открыть личный кабинет
+    else Пароль неверный
+        PHP-->>Browser: 401 Unauthorized
+        Browser-->>Buyer: Показать ошибку авторизации
+    end

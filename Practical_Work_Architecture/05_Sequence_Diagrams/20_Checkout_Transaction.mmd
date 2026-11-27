@@ -1,0 +1,27 @@
+sequenceDiagram
+    actor Buyer as Покупатель
+    participant Browser as Браузер
+    participant PHP
+    participant DB as SQLite
+
+    Buyer->>Browser: Оформить заказ
+    Browser->>PHP: POST /api/orders
+    PHP->>PHP: Проверить авторизацию
+    PHP->>DB: BEGIN TRANSACTION
+    PHP->>DB: Получить корзину и остатки
+    DB-->>PHP: Содержимое корзины и остатки
+    alt Все игры доступны
+        PHP->>DB: Создать orders
+        PHP->>DB: Создать order_items
+        PHP->>DB: Обновить inventory
+        PHP->>DB: Очистить корзину
+        PHP->>DB: COMMIT
+        DB-->>PHP: Транзакция сохранена
+        PHP-->>Browser: 201 Created
+        Browser-->>Buyer: Заказ оформлен
+    else Недостаточно товара
+        PHP->>DB: ROLLBACK
+        DB-->>PHP: Изменения отменены
+        PHP-->>Browser: 409 Conflict
+        Browser-->>Buyer: Показать ошибку наличия
+    end

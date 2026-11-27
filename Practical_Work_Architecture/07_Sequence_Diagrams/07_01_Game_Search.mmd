@@ -1,0 +1,19 @@
+sequenceDiagram
+    actor User as Пользователь
+    participant UI as Интерфейс сайта
+    participant Controller as GameController
+    participant DB as База данных SQLite
+
+    User->>UI: Открывает каталог игр
+    UI->>Controller: Запрос списка игр
+    Controller->>DB: SELECT игр
+    DB-->>Controller: Список игр
+    Controller-->>UI: Передаёт список игр
+    UI-->>User: Отображает каталог
+
+    User->>UI: Вводит название и выбирает фильтры
+    UI->>Controller: Поиск и фильтрация
+    Controller->>DB: SQL-запрос с условиями
+    DB-->>Controller: Найденные игры
+    Controller-->>UI: Результаты поиска
+    UI-->>User: Показывает отфильтрованные игры

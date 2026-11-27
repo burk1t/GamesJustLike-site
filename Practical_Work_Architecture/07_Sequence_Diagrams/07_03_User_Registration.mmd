@@ -1,0 +1,21 @@
+sequenceDiagram
+    actor User as Пользователь
+    participant UI as Интерфейс сайта
+    participant Auth as AuthController
+    participant DB as SQLite
+
+    User->>UI: Заполняет форму регистрации
+    UI->>Auth: Отправляет данные
+    Auth->>Auth: Проверяет введённые данные
+    alt Данные некорректны
+        Auth-->>UI: Сообщение об ошибке
+        UI-->>User: Показывает ошибку
+    else Данные корректны
+        Auth->>DB: Проверяет уникальность логина
+        DB-->>Auth: Результат проверки
+        Auth->>Auth: Хеширует пароль
+        Auth->>DB: INSERT нового пользователя
+        DB-->>Auth: Подтверждение сохранения
+        Auth-->>UI: Регистрация успешна
+        UI-->>User: Показывает результат
+    end

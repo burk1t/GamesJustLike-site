@@ -1,0 +1,19 @@
+sequenceDiagram
+    actor Guest as Гость
+    participant Browser as Браузер
+    participant Apache
+    participant PHP
+    participant DB as SQLite
+
+    Guest->>Browser: Открывает главную страницу
+    Browser->>Apache: GET /
+    Apache-->>Browser: HTML, CSS, JS
+    Browser->>PHP: POST /api/visit
+    PHP->>DB: Создать или найти гостевой профиль
+    DB-->>PHP: ID гостя
+    PHP-->>Browser: 200 OK, guest_id
+    Browser->>PHP: GET /api/recommendations
+    PHP->>DB: Получить популярные игры
+    DB-->>PHP: Список игр
+    PHP-->>Browser: JSON с рекомендациями
+    Browser-->>Guest: Отобразить главную страницу

@@ -1,148 +1,116 @@
-
 <?php
-require_once 'db.php';
+declare(strict_types=1);
 
-// Получаем все обращения из SQLite
-$stmt = $pdo->query("
-    SELECT id, name, email, subject, message, created_at
-    FROM messages
-    ORDER BY id DESC
-");
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
 
-$messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
+if (empty($_SESSION['login']) || ($_SESSION['role_name'] ?? '') !== 'admin') {
+    http_response_code(403);
+    exit('Доступ запрещён. Эта страница доступна только администратору.');
+}
+
+require_once __DIR__ . '/config/api_client.php';
+
+$messages = [];
+$error = '';
+
+try {
+    $login = rawurlencode((string)$_SESSION['login']);
+    $result = apiRequest('messages.php?login=' . $login);
+    $messages = $result['messages'] ?? [];
+} catch (Throwable $e) {
+    error_log('Messages page error: ' . $e->getMessage());
+    $error = 'Не удалось загрузить сообщения. Проверьте доступность API.';
+}
+
+function h(mixed $value): string
+{
+    return htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8');
+}
 ?>
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Обращения — GamesJustLike</title>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Сообщения пользователей</title>
     <style>
-        * {
-            box-sizing: border-box;
-        }
-
+        * { box-sizing: border-box; }
         body {
             margin: 0;
-            padding: 30px;
-            background: #0f141b;
-            color: white;
+            padding: 30px 16px;
+            background: #171a21;
+            color: #e5e5e5;
             font-family: Arial, sans-serif;
         }
-
         .container {
             max-width: 1000px;
-            margin: 30px auto;
+            margin: auto;
         }
-
-        h1 {
-            color: #66c0f4;
-        }
-
-        .message {
-            background: #1b2838;
-            padding: 22px;
+        h1 { color: #66c0f4; }
+        .top-link {
+            display: inline-block;
             margin-bottom: 20px;
-            border-radius: 10px;
-            border: 1px solid #34465a;
-        }
-
-        .message h2 {
             color: #66c0f4;
-            margin-top: 0;
+            text-decoration: none;
         }
-
+        .message {
+            background: #202630;
+            border: 1px solid #343b49;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
         .meta {
-            color: #aab4c0;
+            color: #aeb8c5;
             font-size: 14px;
+            line-height: 1.7;
         }
-
-        .content {
+        .subject {
+            font-size: 19px;
+            color: #fff;
+            margin: 12px 0;
+        }
+        .body {
             white-space: pre-wrap;
             overflow-wrap: anywhere;
             line-height: 1.6;
         }
-
-        a {
-            color: #66c0f4;
-            text-decoration: none;
+        .notice {
+            background: #30252a;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
         }
-
-        .empty {
-            background: #1b2838;
-            padding: 25px;
-            border-radius: 10px;
-        }
+        .empty { color: #aeb8c5; }
     </style>
 </head>
-
 <body>
-
 <div class="container">
+    <a class="top-link" href="index.php">← Вернуться на главную</a>
+    <h1>Сообщения пользователей</h1>
 
-    <h1>Обращения пользователей</h1>
-
-    <p>GamesJustLike — панель просмотра сообщений</p>
-
-    <p>
-        Всего обращений: <strong><?= count($messages) ?></strong>
-    </p>
-
-    <?php if (count($messages) > 0): ?>
+    <?php if ($error !== ''): ?>
+        <div class="notice"><?= h($error) ?></div>
+    <?php elseif (empty($messages)): ?>
+        <p class="empty">Пока нет сообщений.</p>
+    <?php else: ?>
+        <p>Всего сообщений: <?= count($messages) ?></p>
 
         <?php foreach ($messages as $item): ?>
-
-            <div class="message">
-
-                <h2>
-                    #<?= (int)$item['id'] ?>
-                    — <?= htmlspecialchars($item['subject'], ENT_QUOTES, 'UTF-8') ?>
-                </h2>
-
-                <p class="meta">
-                    Имя:
-                    <?= htmlspecialchars($item['name'], ENT_QUOTES, 'UTF-8') ?>
-                </p>
-
-                <p class="meta">
-                    Email:
-                    <?= htmlspecialchars($item['email'], ENT_QUOTES, 'UTF-8') ?>
-                </p>
-
-                <p class="meta">
-                    Дата:
-                    <?= htmlspecialchars($item['created_at'], ENT_QUOTES, 'UTF-8') ?>
-                </p>
-
-                <hr>
-
-                <div class="content"><?=
-                    htmlspecialchars($item['message'], ENT_QUOTES, 'UTF-8')
-                ?></div>
-
-            </div>
-
+            <article class="message">
+                <div class="meta">
+                    <strong>От:</strong> <?= h($item['name'] ?? '') ?><br>
+                    <strong>Email:</strong> <?= h($item['email'] ?? '') ?><br>
+                    <strong>Дата:</strong> <?= h($item['created_at'] ?? '') ?><br>
+                    <strong>ID:</strong> <?= h($item['id'] ?? '') ?>
+                </div>
+                <div class="subject"><?= h($item['subject'] ?? '') ?></div>
+                <div class="body"><?= h($item['message'] ?? '') ?></div>
+            </article>
         <?php endforeach; ?>
-
-    <?php else: ?>
-
-        <div class="empty">
-            Пока обращений нет.
-        </div>
-
     <?php endif; ?>
-
-    <p>
-        <a href="contacts.php">← Вернуться к форме обратной связи</a>
-    </p>
-
-    <p>
-        <a href="index.html">← На главную</a>
-    </p>
-
 </div>
-
 </body>
 </html>

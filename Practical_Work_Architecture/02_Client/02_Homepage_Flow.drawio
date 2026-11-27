@@ -1,0 +1,91 @@
+<mxfile host="app.diagrams.net" agent="ChatGPT">
+  <diagram id="gjl-home-flow-03" name="03_Homepage_Flow">
+    <mxGraphModel dx="4133" dy="2065" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1300" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="start" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;" value="Начало&#xa;Пользователь открывает GamesJustLike" vertex="1">
+          <mxGeometry height="65" width="300" x="480" y="25" as="geometry" />
+        </mxCell>
+        <mxCell id="load" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;align=center;verticalAlign=middle;spacing=7;" value="Браузер загружает HTML, CSS и JavaScript&#xa;Доступно локально: язык интерфейса, параметры страницы" vertex="1">
+          <mxGeometry height="85" width="400" x="430" y="125" as="geometry" />
+        </mxCell>
+        <mxCell id="session" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;align=center;verticalAlign=middle;spacing=7;" value="Проверить наличие токена / cookie сессии&#xa;(сам факт наличия не подтверждает авторизацию)" vertex="1">
+          <mxGeometry height="85" width="400" x="430" y="250" as="geometry" />
+        </mxCell>
+        <mxCell id="has" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;align=center;verticalAlign=middle;" value="Есть данные сессии?" vertex="1">
+          <mxGeometry height="105" width="210" x="525" y="375" as="geometry" />
+        </mxCell>
+        <mxCell id="guestreq" parent="1" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;align=center;verticalAlign=middle;spacing=6;" value="Отправить GET /api/visit&#xa;и GET /api/recommendations&#xa;без авторизованной сессии" vertex="1">
+          <mxGeometry height="105" width="300" x="55" y="545" as="geometry" />
+        </mxCell>
+        <mxCell id="userreq" parent="1" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;align=center;verticalAlign=middle;spacing=6;" value="Отправить GET /api/visit&#xa;и GET /api/recommendations&#xa;с cookie / токеном сессии" vertex="1">
+          <mxGeometry height="105" width="330" x="850" y="545" as="geometry" />
+        </mxCell>
+        <mxCell id="wait" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;align=center;verticalAlign=middle;spacing=7;" value="Показать состояние загрузки&#xa;Ожидать HTTP-ответ сервера" vertex="1">
+          <mxGeometry height="75" width="350" x="450" y="700" as="geometry" />
+        </mxCell>
+        <mxCell id="ok" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;align=center;verticalAlign=middle;" value="Ответ успешный (2xx)?" vertex="1">
+          <mxGeometry height="100" width="220" x="520" y="815" as="geometry" />
+        </mxCell>
+        <mxCell id="renderGuest" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;align=center;verticalAlign=middle;spacing=7;" value="Отобразить главную страницу&#xa;и стартовую подборку для гостя" vertex="1">
+          <mxGeometry height="85" width="310" x="40" y="950" as="geometry" />
+        </mxCell>
+        <mxCell id="renderUser" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;align=center;verticalAlign=middle;spacing=7;" value="Отобразить главную страницу&#xa;и персональные рекомендации покупателя" vertex="1">
+          <mxGeometry height="85" width="350" x="850" y="950" as="geometry" />
+        </mxCell>
+        <mxCell id="error" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;align=center;verticalAlign=middle;spacing=6;" value="Показать сообщение об ошибке&#xa;Сохранить доступ к каталогу&#xa;Кнопка «Повторить» повторяет запрос" vertex="1">
+          <mxGeometry height="85" width="350" x="450" y="950" as="geometry" />
+        </mxCell>
+        <mxCell id="end" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;" value="Конец&#xa;Главная страница отображена" vertex="1">
+          <mxGeometry height="55" width="260" x="500" y="1060" as="geometry" />
+        </mxCell>
+        <mxCell id="f1" edge="1" parent="1" source="start" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#666666;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;" target="load" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="f2" edge="1" parent="1" source="load" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#666666;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;" target="session" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="f3" edge="1" parent="1" source="session" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#666666;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;" target="has" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="f4" edge="1" parent="1" source="has" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#666666;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;" target="guestreq" value="Нет">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="f5" edge="1" parent="1" source="has" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#666666;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;" target="userreq" value="Да">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="f6" edge="1" parent="1" source="guestreq" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#666666;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;" target="wait" value="Запросы отправлены">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="f7" edge="1" parent="1" source="userreq" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#666666;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;" target="wait" value="Запросы отправлены">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="f8" edge="1" parent="1" source="wait" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#666666;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;" target="ok" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="f9" edge="1" parent="1" source="ok" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#666666;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;" target="renderGuest" value="Да">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="f10" edge="1" parent="1" source="ok" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#666666;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;" target="renderUser" value="Да">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="f11" edge="1" parent="1" source="ok" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#666666;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;" target="error" value="Нет / тайм-аут / ошибка сети">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="f12" edge="1" parent="1" source="renderGuest" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#666666;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;" target="end" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="f13" edge="1" parent="1" source="renderUser" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#666666;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;" target="end" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="f14" edge="1" parent="1" source="error" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#b85450;dashed=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;" target="wait" value="Повторная попытка">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="note" parent="1" style="shape=note;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;align=left;spacing=9;" value="Граница ответственности:&#xa;• Браузер определяет только наличие сохранённых данных сессии и отправляет запрос.&#xa;• PHP на сервере проверяет действительность сессии и права пользователя.&#xa;• Сервер выбирает гостевую или персональную подборку и получает данные из SQLite.&#xa;• Браузер отображает полученный JSON; при ошибке предлагает повторить запрос." vertex="1">
+          <mxGeometry height="260" width="350" x="865" y="125" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

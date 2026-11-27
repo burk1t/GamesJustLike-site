@@ -1,0 +1,16 @@
+sequenceDiagram
+    actor User as Пользователь
+    participant UI as Интерфейс сайта
+    participant Controller as CartController
+    participant DB as SQLite
+
+    User->>UI: Нажимает Добавить в корзину
+    UI->>Controller: Передаёт ID игры и пользователя
+    Controller->>DB: Проверяет существование игры
+    DB-->>Controller: Результат проверки
+    Controller->>DB: Проверяет корзину пользователя
+    DB-->>Controller: Данные корзины
+    Controller->>DB: INSERT или UPDATE cart_items
+    DB-->>Controller: Подтверждение
+    Controller-->>UI: Игра добавлена
+    UI-->>User: Показывает обновлённую корзину

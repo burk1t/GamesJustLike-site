@@ -1,0 +1,19 @@
+sequenceDiagram
+    actor User as Пользователь
+    participant UI as Интерфейс сайта
+    participant Controller as OrderController
+    participant DB as SQLite
+
+    User->>UI: Нажимает Оформить заказ
+    UI->>Controller: Передаёт данные корзины
+    Controller->>DB: Получает товары корзины
+    DB-->>Controller: Список товаров
+    Controller->>Controller: Рассчитывает сумму
+    Controller->>DB: Создаёт заказ
+    DB-->>Controller: ID заказа
+    Controller->>DB: Сохраняет позиции заказа
+    DB-->>Controller: Подтверждение
+    Controller->>DB: Очищает корзину
+    DB-->>Controller: Подтверждение
+    Controller-->>UI: Заказ оформлен
+    UI-->>User: Показывает подтверждение заказа

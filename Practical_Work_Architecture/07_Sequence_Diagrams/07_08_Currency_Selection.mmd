@@ -1,0 +1,13 @@
+sequenceDiagram
+    actor User as Пользователь
+    participant UI as Интерфейс сайта
+    participant Controller as CurrencyController
+    participant DB as SQLite
+
+    User->>UI: Выбирает страну или валюту
+    UI->>Controller: Передаёт выбранную валюту
+    Controller->>DB: Проверяет доступность валюты
+    DB-->>Controller: Данные валюты
+    Controller->>Controller: Сохраняет настройку пользователя
+    Controller-->>UI: Подтверждает выбор
+    UI-->>User: Обновляет отображение цен

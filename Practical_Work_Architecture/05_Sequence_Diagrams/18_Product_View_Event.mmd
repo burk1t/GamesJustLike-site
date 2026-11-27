@@ -1,0 +1,20 @@
+sequenceDiagram
+    actor Buyer as Покупатель
+    participant Browser as Браузер
+    participant PHP
+    participant DB as SQLite
+
+    Buyer->>Browser: Открывает страницу игры
+    Browser->>PHP: GET /api/games/{id}
+    PHP->>DB: Получить данные игры
+    DB-->>PHP: Информация об игре
+    PHP-->>Browser: JSON с данными игры
+    Browser-->>Buyer: Показать страницу игры
+    Browser->>PHP: POST /api/events
+    PHP->>DB: Записать событие просмотра
+    DB-->>PHP: Событие сохранено
+    PHP->>DB: Обновить user_preferences
+    DB-->>PHP: Предпочтения обновлены
+    PHP->>DB: Пересчитать рекомендации
+    DB-->>PHP: Новые рекомендации
+    PHP-->>Browser: 200 OK

@@ -1,0 +1,19 @@
+sequenceDiagram
+    actor User as Пользователь
+    participant UI as Интерфейс сайта
+    participant Auth as AuthController
+    participant DB as SQLite
+
+    User->>UI: Вводит логин и пароль
+    UI->>Auth: Отправляет данные авторизации
+    Auth->>DB: SELECT пользователя по логину
+    DB-->>Auth: Данные пользователя
+    Auth->>Auth: Проверяет пароль
+    alt Пароль правильный
+        Auth->>Auth: Создаёт сессию
+        Auth-->>UI: Успешная авторизация
+        UI-->>User: Открывает личный кабинет
+    else Пароль неправильный
+        Auth-->>UI: Ошибка авторизации
+        UI-->>User: Показывает сообщение об ошибке
+    end

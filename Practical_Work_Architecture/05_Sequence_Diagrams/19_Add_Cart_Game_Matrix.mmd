@@ -1,0 +1,20 @@
+sequenceDiagram
+    actor Buyer as Покупатель
+    participant Browser as Браузер
+    participant PHP
+    participant DB as SQLite
+
+    Buyer->>Browser: Добавить игру в корзину
+    Browser->>PHP: POST /api/cart/items
+    PHP->>PHP: Проверить сессию
+    PHP->>DB: Проверить существование игры
+    DB-->>PHP: Данные игры
+    PHP->>DB: Получить содержимое корзины
+    DB-->>PHP: Текущие игры
+    PHP->>DB: Получить похожие игры из game_relations
+    DB-->>PHP: Коэффициенты сходства
+    PHP->>PHP: Рассчитать дополнительные рекомендации
+    PHP->>DB: Добавить игру в cart_items
+    DB-->>PHP: Запись создана
+    PHP-->>Browser: 201 Created
+    Browser-->>Buyer: Корзина обновлена
